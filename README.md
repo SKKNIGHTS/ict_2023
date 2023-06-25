@@ -47,6 +47,6 @@ songys님의 "한국어 데이터셋 링크"를 참고했습니다.
 
 ## Models
 
-`DistilBERT : [https://huggingface.co/docs/transformers/model_doc/distilbert](https://huggingface.co/docs/transformers/model_doc/distilbert)
+`koBERT` : [https://huggingface.co/monologg/kobert](https://huggingface.co/monologg/kobert)
 
 ## Services
