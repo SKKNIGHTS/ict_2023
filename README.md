@@ -37,6 +37,16 @@ songys님의 "한국어 데이터셋 링크"를 참고했습니다.
 
 ## Guidances
 
+[Huggingface Text Classification Tutorial](https://huggingface.co/docs/transformers/tasks/sequence_classification)
+
+[Autotrained documentation](https://huggingface.co/transformers/v3.0.2/model_doc/auto.html)
+
+[Text Classification with HuggingFace Transformers Trainer](https://medium.com/grabngoinfo/transfer-learning-for-text-classification-using-hugging-face-transformers-trainer-13407187cf89)
+
+[Finetune DistilBERT for multiclass classification with PyTorch](https://colab.research.google.com/github/abhimishra91/transformers-tutorials/blob/master/transformers_multiclass_classification.ipynb)
+
 ## Models
+
+`DistilBERT : [https://huggingface.co/docs/transformers/model_doc/distilbert](https://huggingface.co/docs/transformers/model_doc/distilbert)
 
 ## Services
