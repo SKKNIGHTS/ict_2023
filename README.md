@@ -69,6 +69,8 @@
 
 ### Text Sentiment Model
 
+**현재 최종 작업중인 모델** : BERT + lightning : [https://drive.google.com/file/d/1T0gOJMMHIPhDndnXeA6cVDNYUzVVYiv-/view?usp=sharing](https://drive.google.com/file/d/1T0gOJMMHIPhDndnXeA6cVDNYUzVVYiv-/view?usp=sharing)
+
 `XGBoost` : [https://github.com/dmlc/xgboost](https://github.com/dmlc/xgboost)
 
 `koBERT` : [https://github.com/monologg/KoBERT-Transformers](https://github.com/monologg/KoBERT-Transformers)
