@@ -6,7 +6,11 @@
 
 ## Problem
 
+**ICT 프로젝트가 어떤 문제를 tackle하는지 적어주세요**
+
 ## Objective
+
+**ICT 프로젝트의 목표를 적어주세요**
 
 ## Dataset
 
@@ -47,8 +51,51 @@ songys님의 "한국어 데이터셋 링크"를 참고했습니다.
 
 ## Models
 
+### Voice Sentiment Model
+
+### Text Sentiment Model
+
+`XGBoost` : [https://github.com/dmlc/xgboost](https://github.com/dmlc/xgboost)
+
 `koBERT` : [https://github.com/monologg/KoBERT-Transformers](https://github.com/monologg/KoBERT-Transformers)
 
+`감성 대화 말뭉치`은 데이터에 포함된 대화의 주제를 **감정_대분류**, 그리고 **감정_소분류**으로 나누는데, 그 내용은 다음과 같다:
 
+`감정_대분류` : '기쁨' '당황' '분노' '불안' '상처' '슬픔'<br>[감정_대분류] 카테고리 갯수 : 6개
+
+`감정_소분류` : '가난한, 불우한' '감사하는' '걱정스러운' '고립된'...<br>[감정_소분류] 카테고리 갯수 : 58
+
+우리는 감정_대분류, 감정_소분류 두 sentiment를 [감정_대분류 감정 소분류] 형태로 합쳐, 발화자의 세부적인 감정을 분류하고자 한다.
+
+```
+train_dataset['sentiment'] = train_dataset[['감정_대분류', '감정_소분류']].apply(lambda x: ' '.join(x), axis=1)
+train_dataset = train_dataset.drop(['감정_대분류', '감정_소분류'], axis=1)
+```
+#### 1. XGBoost
+
+한국어 자연어처리 언어모델인 koBERT (Korean Bidirectional Encoder Representations from Transformers)을 사용해 앞선 데이터의 한국어 문장을 768차원의 숫자 벡터로 임베딩 후, 머신러닝 classification 알고리즘인 XGBoost을 사용해 주어진 instance를 60개의 각기 다른 카테고리로 분류한다.
+
+`XGBoost 작업 notebook 링크` : [text_xgboost.ipynb](https://drive.google.com/file/d/1SEj2o_X4OE2UYOOWJqtzxVbLuzTBzUK5/view?usp=sharing)
+
+```
+accuracy = accuracy_score(answer, le.inverse_transform(preds))
+print(f'\naccuracy : {accuracy*100:.2f}%')
+accuracy : 26.02%
+```
+모델 분류의 정확도는 26%으로, 아주 낮은 성능을 보인다. 따라서, 머신러닝 알고리즘으로 분류작업을 진행하는 것보다 
+딥러닝 프레임워크를 구축해 분류작업을 진행하고자 한다.
+
+#### 2. DistilBERT
+
+koBERT을 사용해 데이터의 한국어 문장을 768차원의 숫자 벡터로 임베딩 후, DistilBERT 딥러닝 프레임워크를 조정해 예측값과 실제값의 loss을 최소화하는 방향으로 모델의 가중치를 업데이트한다.
+
+```
+MAX_LEN = 512
+TRAIN_BATCH_SIZE = 32
+VALID_BATCH_SIZE = 32
+EPOCHS = 50
+LEARNING_RATE = 1e-04
+tokenizer = KoBertTokenizer.from_pretrained('monologg/kobert')
+```
 
 ## Services
