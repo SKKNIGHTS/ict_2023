@@ -14,20 +14,34 @@
 
 ## Dataset
 
-songys님의 "한국어 데이터셋 링크"를 참고했습니다.
-[https://github.com/songys/AwesomeKorean_Data](https://github.com/songys/AwesomeKorean_Data)
+[AwesomeKorean_Data](https://github.com/songys/AwesomeKorean_Data)
+
+[Korean Speech Database for ASR](https://github.com/knlee-voice/AI.Tech/blob/master/docs/KoSpeechDB.md)
 
 ### Voice Sentiment Dataset
 
+`감정 분류를 위한 대화 음성 데이터셋` : [https://aihub.or.kr/aihubdata/data/view.do?currMenu=&topMenu=&dataSetSn=263&aihubDataSe=extrldata](https://aihub.or.kr/aihubdata/data/view.do?currMenu=&topMenu=&dataSetSn=263&aihubDataSe=extrldata)
+* 일정 기간동안 사용자들이 어플리케이션과 자연스럽게 대화하고, 수집된 데이터를 정제 작업을 거쳐 선별
+* 7가지 감정(happiness, angry, disgust, fear, neutral, sadness, surprise)에 대해 5명이 라벨링
 
+`한국어 음성 감정 데이터셋(KESDy18)` : [https://nanum.etri.re.kr/share/kjnoh/SER-DB-ETRIv18?lang=eng](https://nanum.etri.re.kr/share/kjnoh/SER-DB-ETRIv18?lang=eng)
+* 헤드셋 마이크(Shure S35) 장치를 통해 수집한 음성데이터에 대한 데이터셋(2018.04~2018.09).
+* 한국인 성우 총 30명 (남/여 각 15명) ~ Arousal : (이완) 1-2-3-4-5 (각성) / Valence : (부정) 1-2-3-4-5 (긍정)
 
 ### Text Sentiment Dataset
 
 `감성 대화 말뭉치` : [https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=86](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=86)
-* 우울증 관련 언어 의미 구조화 및 대화 응답 시나리오 동반한 감성 텍스트 언어 수집
-* 크라우드 소싱 수행으로 일반인 1,500명 대상으로한, 음성 10,000 문장 및 코퍼스 27만 문장 구축
+* (크라우드 소싱) 일반인 1,500명 대상 / 음성 15,700문장 / 코퍼스 27만 문장 구축(ALBERT 엔진 학습용)
+* 우울증 관련 언어 의미 구조화 및 대화 응답 시나리오 동반 수집 (60가지 감정 상태가 포함, 기본적으로 3턴의 대화를 기준)
 
 ![image](https://github.com/a2ran/ict_2023/assets/121621858/78fe94d5-dd35-459f-be89-444315dfe793)
+
+`한국어 감정 정보가 포함된 단발성 대화 데이터셋` : [https://aihub.or.kr/aihubdata/data/view.do?currMenu=118&topMenu=100&dataSetSn=270&aihubDataSe=extrldata](https://aihub.or.kr/aihubdata/data/view.do?currMenu=118&topMenu=100&dataSetSn=270&aihubDataSe=extrldata)
+* SNS 글 및 온라인 댓글에 대한 웹 크롤링을 실시하여 문장을 선정함
+문장 단위 작업을 수행할 수 있도록 문장 분리 작업을 거침
+* 7개 감정(기쁨, 슬픔, 놀람, 분노, 공포, 혐오, 중립) 레이블링 수행
+
+![image](https://github.com/a2ran/ict_2023/assets/121621858/209d5380-ffe7-4ff3-ad03-54ee76b33f5e)
 
 `Multilingual Tweet Intimacy Analysis` : [https://arxiv.org/abs/2210.01108](https://arxiv.org/abs/2210.01108)
 * 다국어 트윗 내용, 언어, 그리고 1~5 사이의 실수값을 제공하지만,
@@ -89,6 +103,10 @@ accuracy : 26.02%
 
 koBERT을 사용해 데이터의 한국어 문장을 768차원의 숫자 벡터로 임베딩 후, DistilBERT 딥러닝 프레임워크를 조정해 예측값과 실제값의 loss을 최소화하는 방향으로 모델의 가중치를 업데이트한다.
 
+`DistilBERT 작업 notebook 링크` : [text_DistilBERT.ipynb](https://github.com/a2ran/ict_2023/blob/main/text_sentiment/text_BERTmodel.ipynb)
+
+##### Parameter :
+
 ```
 MAX_LEN = 512
 TRAIN_BATCH_SIZE = 32
@@ -97,5 +115,75 @@ EPOCHS = 50
 LEARNING_RATE = 1e-04
 tokenizer = KoBertTokenizer.from_pretrained('monologg/kobert')
 ```
+
+##### Model Structure :
+
+```
+┌───────────────┐
+│Input Sequence │
+└──────┬────────┘
+       ↓
+┌───────┴───────┐
+│Embedding Layer│
+│(Word + Position│ 
+│ + LayerNorm +  │
+│   Dropout)    │
+└───────┬────────┘
+       ↓
+┌───────┴────────┐
+│TransformerLayer│
+│   (ModuleList) │
+│      3x        │
+│TransformerBlock│
+│ (MultiHeadSelf │
+│ Attention + FFN│
+│ + LayerNorms + │
+│    Dropout)    │
+└───────┬─────────┘
+       ↓
+┌───────┴───────┐
+│ PreClassifier │
+│   (Linear)   │
+└───────┬───────┘
+       ↓
+┌───────┴───────┐
+│  Dropout(0.3) │
+└───────┬───────┘
+       ↓
+┌───────┴───────┐
+│  Classifier   │
+│   (Linear)    │
+│ Out: 60 classes│
+└───────────────┘
+```
+
+##### Result :
+
+![image](https://github.com/a2ran/ict_2023/assets/121621858/d9286a63-f891-4796-a2b5-8acc9474d220)
+
+![image](https://github.com/a2ran/ict_2023/assets/121621858/e64372bf-2d5b-400a-b431-bf1f6f340106)
+
+
+##### Evaluation :
+
+for 60 sub-categories :
+
+```
+Training Loss Epoch: 0.007094902639563575
+Training Data Accuracy = 99.80%
+```
+
+```
+Validation Loss Epoch: 3.5779860724623385
+Validation Data Accuracy = 58.00%
+```
+
+for 6 sub-categories :
+
+```
+Validation Data Accuracy = 71.33%
+```
+
+# **계속 업데이트를 진행해 val_acc > 0.8을 목표로 학습을 진행 예정입니다.**
 
 ## Services
