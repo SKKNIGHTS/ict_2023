@@ -47,6 +47,8 @@ songys님의 "한국어 데이터셋 링크"를 참고했습니다.
 
 ## Models
 
-`koBERT` : [https://huggingface.co/monologg/kobert](https://huggingface.co/monologg/kobert)
+`koBERT` : [https://github.com/monologg/KoBERT-Transformers](https://github.com/monologg/KoBERT-Transformers)
+
+
 
 ## Services
