@@ -119,17 +119,17 @@ tokenizer = KoBertTokenizer.from_pretrained('monologg/kobert')
 ##### Model Structure :
 
 ```
-┌───────────────┐
-│Input Sequence │
-└──────┬────────┘
-       ↓
-┌───────┴───────┐
-│Embedding Layer│
+┌────────────────┐
+│Input Sequence  │
+└───────┬────────┘
+        ↓
+┌───────┴────────┐
+│Embedding Layer │
 │(Word + Position│ 
 │ + LayerNorm +  │
-│   Dropout)    │
+│   Dropout)     │
 └───────┬────────┘
-       ↓
+        ↓
 ┌───────┴────────┐
 │TransformerLayer│
 │   (ModuleList) │
@@ -139,22 +139,22 @@ tokenizer = KoBertTokenizer.from_pretrained('monologg/kobert')
 │ Attention + FFN│
 │ + LayerNorms + │
 │    Dropout)    │
-└───────┬─────────┘
-       ↓
-┌───────┴───────┐
+└───────┬────────┘
+        ↓
+┌───────┴───────┐ 
 │ PreClassifier │
-│   (Linear)   │
+│   (Linear)    │
 └───────┬───────┘
-       ↓
+        ↓
 ┌───────┴───────┐
 │  Dropout(0.3) │
 └───────┬───────┘
-       ↓
-┌───────┴───────┐
-│  Classifier   │
-│   (Linear)    │
+        ↓
+┌───────┴────────┐
+│  Classifier    │
+│   (Linear)     │
 │ Out: 60 classes│
-└───────────────┘
+└────────────────┘
 ```
 
 ##### Result :
