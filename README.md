@@ -18,6 +18,8 @@
 
 [Korean Speech Database for ASR](https://github.com/knlee-voice/AI.Tech/blob/master/docs/KoSpeechDB.md)
 
+[Text Augmentation](https://dacon.io/competitions/official/235875/codeshare/4625)
+
 ### Voice Sentiment Dataset
 
 `감정 분류를 위한 대화 음성 데이터셋` : [https://aihub.or.kr/aihubdata/data/view.do?currMenu=&topMenu=&dataSetSn=263&aihubDataSe=extrldata](https://aihub.or.kr/aihubdata/data/view.do?currMenu=&topMenu=&dataSetSn=263&aihubDataSe=extrldata)
