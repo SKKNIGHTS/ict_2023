@@ -73,6 +73,9 @@
 
 **현재 최종 작업중인 모델** : BERT + lightning : [https://drive.google.com/file/d/1T0gOJMMHIPhDndnXeA6cVDNYUzVVYiv-/view?usp=sharing](https://drive.google.com/file/d/1T0gOJMMHIPhDndnXeA6cVDNYUzVVYiv-/view?usp=sharing)
 
+![image](https://github.com/a2ran/ict_2023/assets/121621858/2014c363-29ac-44ec-bf3d-09d26dc11ee5)
+
+
 `XGBoost` : [https://github.com/dmlc/xgboost](https://github.com/dmlc/xgboost)
 
 `koBERT` : [https://github.com/monologg/KoBERT-Transformers](https://github.com/monologg/KoBERT-Transformers)
